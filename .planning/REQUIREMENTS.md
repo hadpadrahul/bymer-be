@@ -9,11 +9,11 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Foundation
 
-- [ ] **FOUND-01**: Developer can install and run a Django + DRF project locally using documented environment variables.
-- [ ] **FOUND-02**: Developer can use SQLite locally and configure PostgreSQL for production through `.env` settings.
-- [ ] **FOUND-03**: Developer can manage static and uploaded media through configured `STATIC_*` and `MEDIA_*` settings.
-- [ ] **FOUND-04**: API consumer can access all public API endpoints under a consistent `/api/` URL namespace.
-- [ ] **FOUND-05**: Developer can view generated OpenAPI documentation for the public API.
+- [x] **FOUND-01**: Developer can install and run a Django + DRF project locally using documented environment variables.
+- [x] **FOUND-02**: Developer can use SQLite locally and configure PostgreSQL for production through `.env` settings.
+- [x] **FOUND-03**: Developer can manage static and uploaded media through configured `STATIC_*` and `MEDIA_*` settings.
+- [x] **FOUND-04**: API consumer can access all public API endpoints under a consistent `/api/` URL namespace.
+- [x] **FOUND-05**: Developer can view generated OpenAPI documentation for the public API.
 
 ### Admin Content Management
 
@@ -78,7 +78,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Testing, Documentation, and Deployment
 
-- [ ] **OPS-01**: Developer can run automated tests for models, serializers, and API endpoints.
+- [x] **OPS-01**: Developer can run automated tests for models, serializers, and API endpoints.
 - [ ] **OPS-02**: Developer can generate or inspect sample API responses for frontend integration.
 - [ ] **OPS-03**: Developer can build and run the backend with Docker.
 - [ ] **OPS-04**: Operator has documented production settings for Gunicorn, Nginx, static files, media files, and environment variables.
@@ -117,11 +117,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FOUND-01 | Phase 1 | Pending |
-| FOUND-02 | Phase 1 | Pending |
-| FOUND-03 | Phase 1 | Pending |
-| FOUND-04 | Phase 1 | Pending |
-| FOUND-05 | Phase 1 | Pending |
+| FOUND-01 | Phase 1 | Complete |
+| FOUND-02 | Phase 1 | Complete |
+| FOUND-03 | Phase 1 | Complete |
+| FOUND-04 | Phase 1 | Complete |
+| FOUND-05 | Phase 1 | Complete |
 | ADMIN-01 | Phase 2 | Pending |
 | ADMIN-02 | Phase 2 | Pending |
 | ADMIN-03 | Phase 2 | Pending |
@@ -162,7 +162,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | API-04 | Phase 3 | Pending |
 | API-05 | Phase 3 | Pending |
 | API-06 | Phase 3 | Pending |
-| OPS-01 | Phase 1 | Pending |
+| OPS-01 | Phase 1 | Complete |
 | OPS-02 | Phase 4 | Pending |
 | OPS-03 | Phase 4 | Pending |
 | OPS-04 | Phase 4 | Pending |

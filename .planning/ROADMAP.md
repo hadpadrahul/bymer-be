@@ -115,4 +115,4 @@ This roadmap builds the backend in four vertical phases. Each phase should leave
 
 ## Next Step
 
-Run `$gsd-plan-phase 1` to create the implementation plan for Phase 1.
+Run `$gsd-plan-phase 2` to create the implementation plan for Phase 2.
