@@ -61,8 +61,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
+DATABASE_URL = env("DATABASE_URL", default="").strip()
 DATABASES = {
-    "default": env.db("DATABASE_URL", default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}")
+    "default": environ.Env.db_url_config(
+        DATABASE_URL or f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+    )
 }
 
 AUTH_PASSWORD_VALIDATORS = [
