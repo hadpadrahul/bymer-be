@@ -55,6 +55,7 @@ key-decisions:
   - "Pinned the backend to Django 5.2 LTS and DRF 3.17.x-compatible dependency ranges."
   - "Used a single environment-aware settings module for Phase 1 to avoid premature settings fragmentation."
   - "Added an explicit health response serializer so OpenAPI schema generation validates cleanly."
+  - "Treat blank `DATABASE_URL` as unset so copying `.env.example` preserves the local SQLite fallback."
 
 patterns-established:
   - "Settings read `.env` through `django-environ` while preserving local defaults."
@@ -73,7 +74,7 @@ completed: 2026-05-23
 
 ## Performance
 
-- **Duration:** 15 min
+- **Duration:** 20 min
 - **Started:** 2026-05-23T09:40:32Z
 - **Completed:** 2026-05-23T09:56:00Z
 - **Tasks:** 4
@@ -93,8 +94,9 @@ completed: 2026-05-23
 2. **Task 2: Create Django project scaffold and settings** - `8203c2b` (`feat`)
 3. **Task 3: Add API health route and OpenAPI docs** - `57d2713` (`feat`)
 4. **Task 4: Add pytest smoke tests and developer documentation** - `683761e` (`test`)
+5. **Follow-up: Tolerate blank `DATABASE_URL`** - `79ea3d5` (`fix`)
 
-**Plan metadata:** recorded in the summary commit.
+**Plan metadata:** `f36687e` (`docs`)
 
 ## Files Created/Modified
 
@@ -117,6 +119,7 @@ completed: 2026-05-23
 - Used Django 5.2 LTS and compatible current package ranges rather than unbounded dependencies.
 - Kept settings in one module for Phase 1; production-specific splitting is deferred until deployment complexity justifies it.
 - Added an explicit `HealthCheckResponseSerializer` to make `drf-spectacular` schema generation validate cleanly.
+- Parsed `DATABASE_URL` explicitly so a copied `.env.example` with `DATABASE_URL=` falls back to SQLite without warnings.
 
 ## Deviations from Plan
 
@@ -130,15 +133,24 @@ completed: 2026-05-23
 - **Verification:** Re-ran `python manage.py spectacular --file schema.yml --validate`; no schema errors were reported.
 - **Committed in:** `57d2713` (Task 3 commit)
 
+**2. [Rule 3 - Blocking] Treated blank `DATABASE_URL` as unset**
+- **Found during:** Phase close-out review
+- **Issue:** Copying `.env.example` to `.env` left `DATABASE_URL=` present but blank. Django checks still passed, but `django-environ` warned about an unrecognized database engine and could make future database commands brittle.
+- **Fix:** Read `DATABASE_URL` as a stripped string and pass either the real URL or a SQLite fallback into `environ.Env.db_url_config`.
+- **Files modified:** `config/settings.py`
+- **Verification:** Re-ran the full verification suite and a copied `.env.example` check.
+- **Committed in:** `79ea3d5` (follow-up fix commit)
+
 ---
 
-**Total deviations:** 1 auto-fixed (1 blocking)
-**Impact on plan:** The fix made the planned schema validation reliable without expanding Phase 1 scope.
+**Total deviations:** 2 auto-fixed (2 blocking)
+**Impact on plan:** Both fixes made the planned foundation more reliable without expanding Phase 1 scope.
 
 ## Issues Encountered
 
 - Dependency installation completed successfully but was slow on this network connection.
 - Test runs emit a WhiteNoise warning that `staticfiles/` does not exist yet. This is expected before `collectstatic` and does not fail checks.
+- A blank `DATABASE_URL` in a copied `.env.example` initially produced a `django-environ` warning; fixed in `79ea3d5`.
 
 ## User Setup Required
 
@@ -154,6 +166,7 @@ Passed:
 - `python manage.py migrate --noinput`
 - `python manage.py spectacular --file schema.yml --validate`
 - `pytest`
+- Copied `.env.example` to `.env` and reran `python manage.py check`
 
 ## Next Phase Readiness
 
