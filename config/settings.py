@@ -28,6 +28,8 @@ INSTALLED_APPS = [
     "django_filters",
     "drf_spectacular",
     "core",
+    "site_settings",
+    "pages",
 ]
 
 MIDDLEWARE = [
