@@ -24,6 +24,7 @@ This roadmap builds the backend in four vertical phases. Each phase should leave
 **Goal:** Establish a runnable, testable Django + DRF base with environment configuration and API documentation plumbing.
 **Mode:** mvp
 **UI hint:** no
+**Status:** Complete - 2026-05-23
 
 **Requirements:** FOUND-01, FOUND-02, FOUND-03, FOUND-04, FOUND-05, OPS-01
 
@@ -45,6 +46,7 @@ This roadmap builds the backend in four vertical phases. Each phase should leave
 **Goal:** Implement the admin-managed data model for global, page, repeatable, catalog, and form content.
 **Mode:** mvp
 **UI hint:** no
+**Status:** Ready to plan
 
 **Requirements:** ADMIN-01, ADMIN-02, ADMIN-03, ADMIN-04, ADMIN-05, GLOB-01, GLOB-02, GLOB-03, GLOB-04, PAGE-01, PAGE-02, CONT-01, CONT-02, CONT-03, CONT-04, CONT-05, CONT-06, CONT-07, CAT-01, CAT-02, CAT-03, FORM-04, FORM-05
 

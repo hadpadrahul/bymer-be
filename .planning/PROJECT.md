@@ -14,11 +14,10 @@ The backend lets non-technical admins manage website content safely while giving
 
 ### Validated
 
-(None yet - ship to validate)
+- [x] Provide a production-ready Django + DRF project configured for local SQLite and production PostgreSQL. Validated in Phase 1: Project Foundation.
 
 ### Active
 
-- [ ] Provide a production-ready Django + DRF project configured for local SQLite and production PostgreSQL.
 - [ ] Make Django Admin the central content-management interface for all dynamic website data.
 - [ ] Support admin-managed global website content, including company details, contact details, logos, social links, banners, shared statistics, and footer/header data.
 - [ ] Support page-specific content through a stable page-centric API where whole-page assembly is useful.
@@ -68,11 +67,12 @@ The implementation should stay friendly to a dynamic frontend: arrays should be 
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Use Django + DRF | Best fit for admin-first content management with a clean REST API. | Pending |
+| Use Django + DRF | Best fit for admin-first content management with a clean REST API. | Validated in Phase 1 |
 | Use Django Admin as the content UI | Internal editors need practical CRUD, not a custom admin product. | Pending |
 | Use hybrid page-centric and collection APIs | Whole-page payloads help dynamic pages while collection endpoints keep reusable data simple. | Pending |
 | Keep public authentication out of scope | The project does not require public user accounts. | Pending |
 | Keep `main` clean and develop on `development` | Supports GSD planning without polluting the app-only release branch. | Pending |
+| Use a single environment-aware settings module initially | Phase 1 needs a simple foundation; separate settings can be introduced later only if deployment complexity justifies it. | Validated in Phase 1 |
 
 ## Evolution
 
@@ -92,4 +92,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state.
 
 ---
-*Last updated: 2026-05-23 after initialization*
+*Last updated: 2026-05-23 after Phase 1 completion*
