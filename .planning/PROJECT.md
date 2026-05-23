@@ -16,16 +16,14 @@ The backend lets non-technical admins manage website content safely while giving
 
 - [x] Provide a production-ready Django + DRF project configured for local SQLite and production PostgreSQL. Validated in Phase 1: Project Foundation.
 - [x] Provide admin-managed models and Django Admin configuration for global, page, repeatable, catalog, and stored inquiry content. Validated in Phase 2: Admin Content Model Layer.
+- [x] Expose stable public REST APIs for globals, content collections, catalog, page composition, and write-only forms. Validated in Phase 3: Public API Contract.
 
 ### Active
 
-- [ ] Support admin-managed global website content through public APIs (globals, pages, collections) in Phase 3.
+- [ ] Package and document production deployment (Docker, Nginx, Gunicorn, environment variables) in Phase 4.
 - [ ] Support page-specific content through a stable page-centric API where whole-page assembly is useful.
-- [ ] Expose repeatable content collections through stable public APIs with ordering and active filtering.
-- [ ] Expose catalog data for product categories, products, machinery, and plant-specific machinery filtering.
-- [ ] Expose credibility content including team members, history/timeline, client partners, testimonials/documents, certifications, awards, and FAQs.
-- [ ] Store contact inquiries and career applications through validated write-only public endpoints (models and admin review exist from Phase 2).
-- [ ] Keep API response shapes stable, lean, ordered, filterable, and frontend-friendly.
+- [ ] Provide frontend handoff documentation with sample API responses (Phase 4).
+- [ ] Document media backup assumptions and production static/media serving (Phase 4).
 - [ ] Keep the schema practical: normalized relational models by default, JSONField only when it clearly reduces complexity.
 - [ ] Optimize read-heavy endpoints with sensible queryset selection and no unnecessary nesting or overfetching.
 - [ ] Prepare production deployment with environment-based settings, Docker, static/media handling, and Nginx reverse proxy assumptions.
@@ -70,7 +68,7 @@ The implementation should stay friendly to a dynamic frontend: arrays should be 
 | Use Django + DRF | Best fit for admin-first content management with a clean REST API. | Validated in Phase 1 |
 | Use Django Admin as the content UI | Internal editors need practical CRUD, not a custom admin product. | Validated in Phase 2 |
 | Use explicit domain Django apps (`site_settings`, `pages`, `content`, `catalog`, `inquiries`) | Keeps models admin-friendly without a generic CMS abstraction. | Validated in Phase 2 |
-| Use hybrid page-centric and collection APIs | Whole-page payloads help dynamic pages while collection endpoints keep reusable data simple. | Pending |
+| Use hybrid page-centric and collection APIs | Whole-page payloads help dynamic pages while collection endpoints keep reusable data simple. | Validated in Phase 3 |
 | Keep public authentication out of scope | The project does not require public user accounts. | Pending |
 | Keep `main` clean and develop on `development` | Supports GSD planning without polluting the app-only release branch. | Pending |
 | Use a single environment-aware settings module initially | Phase 1 needs a simple foundation; separate settings can be introduced later only if deployment complexity justifies it. | Validated in Phase 1 |
@@ -93,4 +91,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state.
 
 ---
-*Last updated: 2026-05-23 after Phase 2 completion*
+*Last updated: 2026-05-23 after Phase 3 completion*
