@@ -30,6 +30,8 @@ INSTALLED_APPS = [
     "core",
     "site_settings",
     "pages",
+    "content",
+    "catalog",
 ]
 
 MIDDLEWARE = [
