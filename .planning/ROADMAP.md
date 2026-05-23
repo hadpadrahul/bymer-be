@@ -68,6 +68,7 @@ This roadmap builds the backend in four vertical phases. Each phase should leave
 **Goal:** Expose stable frontend APIs, write-only form endpoints, filtering, ordering, pagination, and query-conscious serializers.
 **Mode:** mvp
 **UI hint:** no
+**Status:** Ready to execute
 
 **Requirements:** GLOB-05, PAGE-03, PAGE-04, CONT-08, CAT-04, CAT-05, CAT-06, FORM-01, FORM-02, FORM-03, FORM-06, API-01, API-02, API-03, API-04, API-05, API-06
 
@@ -117,4 +118,4 @@ This roadmap builds the backend in four vertical phases. Each phase should leave
 
 ## Next Step
 
-Run `$gsd-plan-phase 3` to plan the public API contract phase.
+Run `$gsd-execute-phase 3` to execute the implementation plans for Phase 3.

@@ -2,12 +2,12 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: ready_to_plan
-last_updated: "2026-05-23T12:00:00.000Z"
+status: ready_to_execute
+last_updated: "2026-05-23T12:30:00.000Z"
 progress:
   total_phases: 4
   completed_phases: 2
-  total_plans: 7
+  total_plans: 8
   completed_plans: 4
   percent: 50
 ---
@@ -28,7 +28,7 @@ See: `.planning/PROJECT.md` (updated 2026-05-23)
 - **Planning status:** Initialized
 - **Roadmap status:** Created
 - **Requirements coverage:** 50/50 v1 requirements mapped (29 complete)
-- **Next command:** `$gsd-plan-phase 3`
+- **Next command:** `$gsd-execute-phase 3`
 
 ## Last Completed Phase
 
@@ -50,10 +50,19 @@ See: `.planning/PROJECT.md` (updated 2026-05-23)
 
 **Requirements:** GLOB-05, PAGE-03, PAGE-04, CONT-08, CAT-04, CAT-05, CAT-06, FORM-01, FORM-02, FORM-03, FORM-06, API-01, API-02, API-03, API-04, API-05, API-06
 
-**Status:** Not started
+**Status:** Ready to execute
+
+**Plans:** 4 plans across 4 sequential waves
+
+| Plan | Wave | Title |
+|------|------|-------|
+| 03-01 | 1 | API Foundation and Globals Endpoints |
+| 03-02 | 2 | Content Collection Read APIs |
+| 03-03 | 3 | Catalog APIs and Page Composition |
+| 03-04 | 4 | Write-Only Forms and Phase 3 API Verification |
 
 ## Notes
 
-- GSD named subagents were not installed for the detected runtime during initialization, so project research and roadmap creation were completed inline.
+- GSD named subagents were not installed for the detected runtime during initialization, so Phase 3 research and planning were completed inline.
 - `.codex/`, `.cursor/`, `.gemini/`, `.claude/`, `.agent/`, and local runtime directories are ignored.
 - `.planning/` is intentionally tracked on `development`.
