@@ -54,3 +54,25 @@ class CompanyStatistic(models.Model):
 
     def __str__(self):
         return f"{self.value} {self.label}"
+
+
+class SiteMediaBanner(models.Model):
+    page = models.ForeignKey(
+        "pages.WebsitePage",
+        on_delete=models.CASCADE,
+        related_name="banners",
+        blank=True,
+        null=True,
+    )
+    title = models.CharField(max_length=255)
+    subtitle = models.CharField(max_length=255, blank=True)
+    image = models.ImageField(upload_to="banners/", blank=True)
+    video_url = models.URLField(blank=True)
+    order = models.PositiveIntegerField(default=0, db_index=True)
+    is_active = models.BooleanField(default=True, db_index=True)
+
+    class Meta:
+        ordering = ["order", "title"]
+
+    def __str__(self):
+        return self.title

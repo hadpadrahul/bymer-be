@@ -1,7 +1,13 @@
 import pytest
 from django.core.exceptions import ValidationError
 
-from site_settings.models import CompanyProfile, CompanyStatistic, SocialLink
+from pages.models import WebsitePage
+from site_settings.models import (
+    CompanyProfile,
+    CompanyStatistic,
+    SiteMediaBanner,
+    SocialLink,
+)
 
 
 @pytest.mark.django_db
@@ -47,3 +53,14 @@ def test_repeatable_global_models_have_order_and_active_defaults():
     assert social_link.is_active is True
     assert statistic.order == 0
     assert statistic.is_active is True
+
+
+@pytest.mark.django_db
+def test_site_media_banner_can_be_associated_with_page():
+    page = WebsitePage.objects.create(title="Home", slug="home")
+    banner = SiteMediaBanner.objects.create(page=page, title="Welcome to Bymer")
+
+    assert str(banner) == "Welcome to Bymer"
+    assert banner.page == page
+    assert banner.order == 0
+    assert banner.is_active is True
