@@ -15,16 +15,16 @@ The backend lets non-technical admins manage website content safely while giving
 ### Validated
 
 - [x] Provide a production-ready Django + DRF project configured for local SQLite and production PostgreSQL. Validated in Phase 1: Project Foundation.
+- [x] Provide admin-managed models and Django Admin configuration for global, page, repeatable, catalog, and stored inquiry content. Validated in Phase 2: Admin Content Model Layer.
 
 ### Active
 
-- [ ] Make Django Admin the central content-management interface for all dynamic website data.
-- [ ] Support admin-managed global website content, including company details, contact details, logos, social links, banners, shared statistics, and footer/header data.
+- [ ] Support admin-managed global website content through public APIs (globals, pages, collections) in Phase 3.
 - [ ] Support page-specific content through a stable page-centric API where whole-page assembly is useful.
-- [ ] Support repeatable content collections that can grow, shrink, be ordered, and be hidden without code changes.
-- [ ] Support catalog data for product categories, products, machinery, and plant-specific machinery filtering.
-- [ ] Support credibility content including team members, history/timeline, client partners, testimonials/documents, certifications, awards, and FAQs.
-- [ ] Store contact inquiries and career applications through validated write-only public endpoints, with submissions visible in admin.
+- [ ] Expose repeatable content collections through stable public APIs with ordering and active filtering.
+- [ ] Expose catalog data for product categories, products, machinery, and plant-specific machinery filtering.
+- [ ] Expose credibility content including team members, history/timeline, client partners, testimonials/documents, certifications, awards, and FAQs.
+- [ ] Store contact inquiries and career applications through validated write-only public endpoints (models and admin review exist from Phase 2).
 - [ ] Keep API response shapes stable, lean, ordered, filterable, and frontend-friendly.
 - [ ] Keep the schema practical: normalized relational models by default, JSONField only when it clearly reduces complexity.
 - [ ] Optimize read-heavy endpoints with sensible queryset selection and no unnecessary nesting or overfetching.
@@ -68,7 +68,8 @@ The implementation should stay friendly to a dynamic frontend: arrays should be 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
 | Use Django + DRF | Best fit for admin-first content management with a clean REST API. | Validated in Phase 1 |
-| Use Django Admin as the content UI | Internal editors need practical CRUD, not a custom admin product. | Pending |
+| Use Django Admin as the content UI | Internal editors need practical CRUD, not a custom admin product. | Validated in Phase 2 |
+| Use explicit domain Django apps (`site_settings`, `pages`, `content`, `catalog`, `inquiries`) | Keeps models admin-friendly without a generic CMS abstraction. | Validated in Phase 2 |
 | Use hybrid page-centric and collection APIs | Whole-page payloads help dynamic pages while collection endpoints keep reusable data simple. | Pending |
 | Keep public authentication out of scope | The project does not require public user accounts. | Pending |
 | Keep `main` clean and develop on `development` | Supports GSD planning without polluting the app-only release branch. | Pending |
@@ -92,4 +93,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state.
 
 ---
-*Last updated: 2026-05-23 after Phase 1 completion*
+*Last updated: 2026-05-23 after Phase 2 completion*
