@@ -1,56 +1,46 @@
-# Branch layout
+# Branches
 
-## `main` (deploy from here)
+## `main` — clean deployable project
 
-Production-ready application and documentation only.
+Only what you need to run, test, document, and deploy the backend.
 
-**Included**
+| Included | Excluded (never on `main`) |
+|----------|----------------------------|
+| Django apps, `manage.py`, migrations, tests | `.planning/` |
+| `requirements.txt`, `requirements-dev.txt`, `pytest.ini` | `.codex/`, `.cursor/`, and other agent tool folders |
+| `.env.example`, `README.md`, `docs/` | `AGENTS.md` |
+| `core/management/` scripts (`seed_demo_data`, `benchmark_apis`) | `bymer_project_info.md`, `bymer_be_base_prompt.md` |
 
-- Django apps: `config/`, `core/`, `site_settings/`, `pages/`, `content/`, `catalog/`, `inquiries/`
-- `manage.py`, `requirements.txt`, `requirements-dev.txt`, `pytest.ini`
-- `.env.example`, `README.md`, `docs/`
-- Management commands in `core/management/` (`seed_demo_data`, `benchmark_apis`) for staging checks and local integrators
+Deploy and release from `main`.
 
-**Not in git on `main`** (ignored via `.gitignore`)
+## `development` — everything else for active work
 
-- `.planning/` — internal planning artifacts
-- `AGENTS.md`, `bymer_project_info.md`, `bymer_be_base_prompt.md`
-- `.codex/`, `.cursor/`, `.agent/`, `.agents/`, `.claude/`, `.gemini/`, `.opencode/` — local tooling only
+Same application and docs as `main`, **plus** files you only need while building:
 
-Merge flow: finish work on `development`, run tests, merge into `main` without the paths above.
+| Also on `development` | Still local only (gitignored) |
+|-------------------------|-------------------------------|
+| `.planning/` | `.codex/`, `.cursor/`, `.agent/`, `.agents/`, `.claude/`, `.gemini/`, `.opencode/` |
+| `bymer_project_info.md`, `bymer_be_base_prompt.md` | |
+| `AGENTS.md` (optional workspace notes) | |
 
-## `development` (active work)
+Push feature work to `development`. When ready for production, merge into `main` and strip dev-only paths (see below).
 
-Everything on `main`, plus tracked planning and project notes:
+## `.gitignore` per branch
 
-- `.planning/` — roadmap, phase plans, state
-- `AGENTS.md`, `bymer_project_info.md`, `bymer_be_base_prompt.md`
+- **`development`** — shared rules + agent folders (above). `.planning/` is **not** ignored so it stays in git.
+- **`main`** — shared rules + agent folders + `.planning/` + `AGENTS.md` + project spec markdown files.
 
-AI/editor folders (`.codex/`, `.cursor/`, etc.) stay **untracked** on both branches so they never pollute either history; keep them only on your machine under `development` checkouts.
+If a merge overwrites the wrong `.gitignore`, restore: short file on `development`, long file on `main`.
 
-## `.gitignore` differs by branch
-
-| Branch | Extra ignore rules |
-|--------|-------------------|
-| **`main`** | `.planning/`, `AGENTS.md`, spec markdown files, `.codex/`, `.cursor/`, etc. |
-| **`development`** | Shared rules only (so `.planning/` stays tracked) |
-
-After merging, fix `.gitignore` if Git merged the wrong variant: **short file on `development`**, **long file on `main`**.
-
-## Keeping branches in sync
+## Merge `development` → `main`
 
 ```powershell
-# After features are ready on development:
 git checkout main
 git merge development
 git rm -r --cached .planning AGENTS.md bymer_project_info.md bymer_be_base_prompt.md 2>$null
-# Restore main .gitignore (dev-only section) if the merge overwrote it
+# Ensure main .gitignore still lists the dev-only section
 git add .gitignore
 git commit -m "Release: merge development into main"
-git push origin main
-
-git checkout development
-git merge main
-# Keep development .gitignore (no .planning/ line)
-git commit -m "merge main"  # only if you fixed .gitignore
 ```
+
+Then merge `main` back into `development` and keep the **development** `.gitignore` (no `.planning/` line).

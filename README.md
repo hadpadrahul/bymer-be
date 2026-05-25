@@ -6,8 +6,8 @@ Django + Django REST Framework backend for the Bymer company website. Admins man
 
 | Branch | Use |
 |--------|-----|
-| **`main`** | App, docs, requirements, deployment helpers. Deploy from here. |
-| **`development`** | Same plus `.planning/` and internal notes. See [docs/BRANCHES.md](docs/BRANCHES.md). |
+| **`main`** | Clean app, docs, scripts — deploy from here. |
+| **`development`** | Same + `.planning/` and project notes. Agent folders stay local only. [docs/BRANCHES.md](docs/BRANCHES.md). |
 
 Local demo seed and API benchmark: [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
 

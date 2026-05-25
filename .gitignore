@@ -1,4 +1,4 @@
-# Shared ignores (development branch — .planning/ is tracked here)
+# Shared (both branches)
 .venv/
 .env
 .env.*
@@ -20,3 +20,12 @@ schema.yml
 
 .DS_Store
 Thumbs.db
+
+# development: agent tooling stays on your machine only (never commit)
+.codex/
+.cursor/
+.agent/
+.agents/
+.claude/
+.gemini/
+.opencode/
