@@ -1,15 +1,8 @@
+# Shared ignores
 .venv/
 .env
 .env.*
 !.env.example
-
-.codex/
-.cursor/
-.agent/
-.agents/
-.claude/
-.gemini/
-.opencode/
 
 __pycache__/
 *.py[cod]
@@ -23,5 +16,21 @@ staticfiles/
 .coverage
 htmlcov/
 
+schema.yml
+
 .DS_Store
 Thumbs.db
+
+# Development-only (not on main — see docs/BRANCHES.md)
+.planning/
+AGENTS.md
+bymer_project_info.md
+bymer_be_base_prompt.md
+
+.codex/
+.cursor/
+.agent/
+.agents/
+.claude/
+.gemini/
+.opencode/
