@@ -28,22 +28,29 @@ Everything on `main`, plus tracked planning and project notes:
 
 AI/editor folders (`.codex/`, `.cursor/`, etc.) stay **untracked** on both branches so they never pollute either history; keep them only on your machine under `development` checkouts.
 
+## `.gitignore` differs by branch
+
+| Branch | Extra ignore rules |
+|--------|-------------------|
+| **`main`** | `.planning/`, `AGENTS.md`, spec markdown files, `.codex/`, `.cursor/`, etc. |
+| **`development`** | Shared rules only (so `.planning/` stays tracked) |
+
+After merging, fix `.gitignore` if Git merged the wrong variant: **short file on `development`**, **long file on `main`**.
+
 ## Keeping branches in sync
 
 ```powershell
 # After features are ready on development:
 git checkout main
 git merge development
-# Resolve if needed; ensure .gitignore on main still lists dev-only paths
+git rm -r --cached .planning AGENTS.md bymer_project_info.md bymer_be_base_prompt.md 2>$null
+# Restore main .gitignore (dev-only section) if the merge overwrote it
+git add .gitignore
+git commit -m "Release: merge development into main"
 git push origin main
 
 git checkout development
 git merge main
-```
-
-On `main`, if merge brings in `.planning/` or agent config files, remove them from the commit:
-
-```powershell
-git rm -r --cached .planning AGENTS.md bymer_project_info.md bymer_be_base_prompt.md
-git commit -m "Keep main free of development-only artifacts"
+# Keep development .gitignore (no .planning/ line)
+git commit -m "merge main"  # only if you fixed .gitignore
 ```
