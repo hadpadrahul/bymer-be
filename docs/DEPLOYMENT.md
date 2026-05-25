@@ -1,6 +1,6 @@
 # Production deployment
 
-Use this checklist when deploying from the **`main`** branch (application code only, no demo seeding tools required on the server).
+Use this checklist when deploying from the **`main`** branch.
 
 > Docker, `docker-compose`, and Nginx sample configs are planned as part of the next deployment packaging work. Until those files exist in the repo, follow the process below with your own process manager and reverse proxy.
 
@@ -8,8 +8,8 @@ Use this checklist when deploying from the **`main`** branch (application code o
 
 | Branch | Purpose |
 |--------|---------|
-| **`main`** | Production-ready application code. Merge here when tests pass and docs match the release. |
-| **`development`** | Active work, local demo seeding, API benchmark commands, and extra docs for integrators. |
+| **`main`** | Production-ready app, `docs/`, requirements, and management commands. Deploy from here. |
+| **`development`** | Same app plus `.planning/` and internal project notes. See [BRANCHES.md](./BRANCHES.md). |
 
 ## Environment variables
 
@@ -71,6 +71,6 @@ Uploaded files live under `MEDIA_ROOT` (default: project `media/` directory). Ba
 - Rotate `DJANGO_SECRET_KEY` if compromised.
 - Keep dependencies updated (`requirements.txt`).
 
-## What is not on `main` by design
+## Optional staging helpers (on `main`)
 
-Demo helpers (`seed_demo_data`, `benchmark_apis`) live in `core/management/` and are intended for **`development`** branch local testing. They are safe to run on a staging copy of production data only if you understand they create or clear demo-tagged records.
+`seed_demo_data` and `benchmark_apis` ship with the app for staging smoke tests. On production, only run `seed_demo_data` on a non-production database; it creates demo-tagged records. See [DEVELOPMENT.md](./DEVELOPMENT.md).

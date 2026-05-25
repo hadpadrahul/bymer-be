@@ -6,8 +6,10 @@ Django + Django REST Framework backend for the Bymer company website. Admins man
 
 | Branch | Use |
 |--------|-----|
-| **`main`** | Production-ready app code. Deploy from here. See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). |
-| **`development`** | Active development, demo seeding, and API benchmarks. See [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md). |
+| **`main`** | App, docs, requirements, deployment helpers. Deploy from here. |
+| **`development`** | Same plus `.planning/` and internal notes. See [docs/BRANCHES.md](docs/BRANCHES.md). |
+
+Local demo seed and API benchmark: [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
 
 ## Quick start (local)
 
@@ -30,6 +32,7 @@ Environment variables are documented in `.env.example`. SQLite is the default wh
 |-----|----------|
 | [docs/API.md](docs/API.md) | Endpoints, filters, page sections, forms |
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | VPS checklist, env vars, smoke tests, media backup |
+| [docs/BRANCHES.md](docs/BRANCHES.md) | What lives on `main` vs `development` |
 | [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) | Demo seed, API benchmark, local workflow |
 
 ## Tests

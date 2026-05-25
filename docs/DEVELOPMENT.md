@@ -1,6 +1,6 @@
 # Local development
 
-For day-to-day work on the **`development`** branch: setup, filling the database, and checking APIs before merge to `main`.
+Day-to-day setup, demo data, and API checks. Application code is the same on **`main`** and **`development`**; the latter also tracks `.planning/` and internal spec files (see [BRANCHES.md](./BRANCHES.md)).
 
 ## Setup
 
