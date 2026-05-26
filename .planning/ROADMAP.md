@@ -92,6 +92,7 @@ This roadmap builds the backend in four vertical phases. Each phase should leave
 **Goal:** Package, document, test, and verify the backend for frontend handoff and VPS deployment.
 **Mode:** mvp
 **UI hint:** no
+**Status:** Complete — 2026-05-23
 
 **Requirements:** OPS-02, OPS-03, OPS-04, OPS-05
 
@@ -142,16 +143,13 @@ This roadmap builds the backend in four vertical phases. Each phase should leave
 
 ## Next Step
 
-Run `$gsd-execute-phase 4` or `$gsd-plan-phase 4` for production readiness (Docker, deploy docs).
-
-Phase 5 staff dashboard is complete; sync app + docs to `main` before deploy PRs.
+Milestone v1 backend phases 1–5 are complete. Deploy from `main` ([DEPLOYMENT.md](../docs/DEPLOYMENT.md)).
 
 ## Backlog (post–Phase 5, pre/post–Phase 4)
 
 | ID | Item | Priority |
 |----|------|----------|
-| B-01 | **Phase 4** — Dockerfile, compose, Gunicorn/Nginx samples, OPS-02–OPS-05 | Must (milestone) |
-| B-02 | Sync `main` from `development` (app + `docs/`, no `.planning/`) | Must before deploy |
+| B-01 | Sync `main` from `development` after each release (app + `docs/`, no `.planning/`) | Before deploy |
 | B-03 | HTMX toggle refreshes row state without full page reload | Nice |
 | B-04 | Drag-and-drop `order` on list views | Nice |
 | B-05 | Dashboard password change / reset flow | Nice |

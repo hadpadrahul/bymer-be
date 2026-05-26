@@ -32,7 +32,7 @@ Environment variables are documented in `.env.example`. SQLite is the default wh
 | Doc | Contents |
 |-----|----------|
 | [docs/API.md](docs/API.md) | Endpoints, filters, page sections, forms |
-| [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | VPS checklist, env vars, smoke tests, media backup |
+| [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | PythonAnywhere + VPS/Docker, backup/restore, smoke tests |
 | [docs/BRANCHES.md](docs/BRANCHES.md) | What lives on `main` vs `development` |
 | [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) | Demo seed, API benchmark, local workflow |
 | [docs/ADMIN_DASHBOARD.md](docs/ADMIN_DASHBOARD.md) | Staff dashboard URLs, env vars, page sections |

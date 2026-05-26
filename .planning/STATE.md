@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: in_progress
-last_updated: "2026-05-23T18:00:00.000Z"
+status: complete
+last_updated: "2026-05-23T20:00:00.000Z"
 progress:
   total_phases: 5
-  completed_phases: 4
-  total_plans: 12
-  completed_plans: 12
+  completed_phases: 5
+  total_plans: 13
+  completed_plans: 13
   percent: 100
 ---
 
@@ -20,29 +20,24 @@ See: `.planning/PROJECT.md` (updated 2026-05-23)
 
 **Core value:** The backend lets non-technical admins manage website content safely while giving the frontend stable, fast APIs that do not need backend changes for normal content edits.
 
-**Current focus:** Phase 4 — Production Readiness (not started; can run next)
+**Current focus:** v1 milestone complete — deploy from `main` (PythonAnywhere staging or VPS production).
 
 ## Current Status
 
 - **Project:** Bymer Dynamic Website Backend
-- **Branch strategy:** `development` carries planning; `main` is clean deployable app.
-- **Phase 5:** Staff Admin Dashboard — **complete** (plans 05-01 through 05-04)
-- **Next command:** `$gsd-plan-phase 4` or `$gsd-execute-phase 4` for deployment
+- **Phases 1–5:** Complete
+- **Deploy:** `docs/DEPLOYMENT.md` (PythonAnywhere + Docker/VPS)
+- **Branch:** `development` for work; `main` for deployment
 
 ## Last Completed Phase
 
+### Phase 4: Production Readiness — Complete 2026-05-23
+
+Docker, Gunicorn/Nginx samples, production settings, backup/restore runbook, `.env.example` profiles.
+
 ### Phase 5: Staff Admin Dashboard — Complete 2026-05-23
-
-Template-based `/dashboard/` with registry CRUD, inquiries inbox, media library, `/api/admin/` AJAX helpers, audit log, and email on form submissions. Verification: `05-VERIFICATION.md`.
-
-## Active Phase
-
-### Phase 4: Production Readiness
-
-**Status:** Not started
 
 ## Notes
 
-- User decisions: `.planning/phases/05-staff-admin-dashboard/05-CONTEXT.md`
-- Django Admin remains superuser fallback
-- Sync `main` from `development` (app + docs only) before deploy PRs
+- Manual smoke on target host after first deploy (see DEPLOYMENT.md)
+- Nice-to-haves tracked in ROADMAP.md Backlog

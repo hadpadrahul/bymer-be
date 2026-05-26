@@ -1,0 +1,36 @@
+# VPS-style stack: Gunicorn + PostgreSQL. Nginx runs on the host (see deploy/nginx-bymer.conf).
+# Usage:
+#   cp .env.example .env   # use the VPS / Docker block
+#   docker compose up -d --build
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: bymer
+      POSTGRES_USER: bymer
+      POSTGRES_PASSWORD: bymer
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bymer -d bymer"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build: .
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://bymer:bymer@db:5432/bymer
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    volumes:
+      - media_data:/app/media
+
+volumes:
+  pgdata:
+  media_data:

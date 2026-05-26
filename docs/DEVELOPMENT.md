@@ -92,7 +92,7 @@ pytest
 
 1. `pytest` passes.
 2. `python manage.py spectacular --file schema.yml --validate` passes.
-3. Review [DEPLOYMENT.md](./DEPLOYMENT.md) pre-deploy checklist.
+3. Review [DEPLOYMENT.md](./DEPLOYMENT.md) (PythonAnywhere or VPS/Docker) pre-deploy checklist.
 4. Ensure [API.md](./API.md) still matches any endpoint changes.
 
 ## API details

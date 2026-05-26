@@ -79,10 +79,10 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Testing, Documentation, and Deployment
 
 - [x] **OPS-01**: Developer can run automated tests for models, serializers, and API endpoints.
-- [ ] **OPS-02**: Developer can generate or inspect sample API responses for frontend integration.
-- [ ] **OPS-03**: Developer can build and run the backend with Docker.
-- [ ] **OPS-04**: Operator has documented production settings for Gunicorn, Nginx, static files, media files, and environment variables.
-- [ ] **OPS-05**: Operator has documented media backup assumptions for VPS-hosted uploads.
+- [x] **OPS-02**: Developer can generate or inspect sample API responses for frontend integration.
+- [x] **OPS-03**: Developer can build and run the backend with Docker.
+- [x] **OPS-04**: Operator has documented production settings for Gunicorn, Nginx, static files, media files, and environment variables.
+- [x] **OPS-05**: Operator has documented media backup assumptions for VPS-hosted uploads.
 
 ## v2 Requirements
 
@@ -163,10 +163,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | API-05 | Phase 3 | Complete |
 | API-06 | Phase 3 | Complete |
 | OPS-01 | Phase 1 | Complete |
-| OPS-02 | Phase 4 | Pending |
-| OPS-03 | Phase 4 | Pending |
-| OPS-04 | Phase 4 | Pending |
-| OPS-05 | Phase 4 | Pending |
+| OPS-02 | Phase 4 | Complete |
+| OPS-03 | Phase 4 | Complete |
+| OPS-04 | Phase 4 | Complete |
+| OPS-05 | Phase 4 | Complete |
 
 **Coverage:**
 - v1 requirements: 50 total
@@ -175,4 +175,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-05-23*
-*Last updated: 2026-05-23 after Phase 3 completion*
+*Last updated: 2026-05-23 after Phase 4 completion (v1 milestone complete)*
