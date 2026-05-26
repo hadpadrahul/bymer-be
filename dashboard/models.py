@@ -23,3 +23,22 @@ class AdminAuditEntry(models.Model):
 
     def __str__(self):
         return f"{self.action} {self.model_name} ({self.created_at:%Y-%m-%d %H:%M})"
+
+
+class MediaAsset(models.Model):
+    file = models.FileField(upload_to="library/")
+    original_name = models.CharField(max_length=255, blank=True)
+    uploaded_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="media_uploads",
+    )
+    uploaded_at = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    class Meta:
+        ordering = ["-uploaded_at"]
+
+    def __str__(self):
+        return self.original_name or self.file.name

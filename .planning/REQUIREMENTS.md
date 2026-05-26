@@ -91,7 +91,7 @@ Deferred to future release. Tracked but not in current roadmap.
 ### Enhancements
 
 - **SEO-01**: Admin can manage richer SEO metadata, canonical URLs, and Open Graph fields if the frontend needs them.
-- **EMAIL-01**: System can send email notifications for contact and career submissions.
+- **EMAIL-01**: ~~System can send email notifications for contact and career submissions.~~ Shipped in Phase 5 (`ADMIN_NOTIFICATION_EMAILS`); keep in v2 only if richer templates/webhooks are needed later.
 - **FORM-EXT-01**: Career applications can accept resume uploads when the client confirms that requirement.
 - **DOC-01**: Admin can manage a broader reusable document-download library.
 - **MEDIA-01**: Uploaded media can move to object storage if VPS disk storage becomes insufficient.

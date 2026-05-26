@@ -22,6 +22,35 @@ from site_settings.models import CompanyStatistic, SiteMediaBanner
 from site_settings.serializers import CompanyStatisticSerializer, SiteMediaBannerSerializer
 
 
+PAGE_SECTION_MAP = {
+    "home": ["statistics"],
+    "our-team": ["team"],
+    "our-history": ["timelines"],
+    "testimonials": ["testimonials"],
+    "quality-assurance": ["certifications", "awards"],
+    "automotive-products": ["products"],
+    "non-automotive-products": ["products"],
+    "machinery": ["machinery"],
+    "contact-us": ["faqs"],
+}
+
+SECTION_COLLECTION_LINKS = {
+    "statistics": ("dashboard:list", "statistics"),
+    "team": ("dashboard:list", "team"),
+    "timelines": ("dashboard:list", "timelines"),
+    "testimonials": ("dashboard:list", "testimonials"),
+    "certifications": ("dashboard:list", "certifications"),
+    "awards": ("dashboard:list", "awards"),
+    "faqs": ("dashboard:list", "faqs"),
+    "products": ("dashboard:list", "products"),
+    "machinery": ("dashboard:list", "machinery"),
+}
+
+
+def get_known_page_slugs():
+    return list(PAGE_SECTION_MAP.keys())
+
+
 def _serialize(queryset, serializer_class, request):
     return serializer_class(queryset, many=True, context={"request": request}).data
 

@@ -1,8 +1,9 @@
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView
 
-from dashboard.mixins import StaffRequiredMixin
+from dashboard.views.misc import DashboardHomeView
+
+__all__ = ["DashboardLoginView", "DashboardLogoutView", "DashboardHomeView"]
 
 
 class DashboardLoginView(LoginView):
@@ -15,7 +16,3 @@ class DashboardLoginView(LoginView):
 
 class DashboardLogoutView(LogoutView):
     next_page = reverse_lazy("dashboard:login")
-
-
-class DashboardHomeView(StaffRequiredMixin, TemplateView):
-    template_name = "dashboard/home.html"

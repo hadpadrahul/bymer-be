@@ -1,6 +1,12 @@
 from django.contrib import admin
 
-from dashboard.models import AdminAuditEntry
+from dashboard.models import AdminAuditEntry, MediaAsset
+
+
+@admin.register(MediaAsset)
+class MediaAssetAdmin(admin.ModelAdmin):
+    list_display = ("original_name", "uploaded_by", "uploaded_at")
+    readonly_fields = ("uploaded_at",)
 
 
 @admin.register(AdminAuditEntry)

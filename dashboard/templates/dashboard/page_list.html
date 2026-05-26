@@ -1,0 +1,40 @@
+{% extends "dashboard/base_staff.html" %}
+{% block title %}Pages — Dashboard{% endblock %}
+{% block content %}
+<div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+  <h1 class="text-2xl font-semibold">Website pages</h1>
+  <a href="{% url 'dashboard:page-add' %}" class="inline-flex rounded bg-slate-900 text-white px-4 py-2 text-sm">Add page</a>
+</div>
+<form method="get" class="mt-4">
+  <input type="search" name="q" value="{{ request.GET.q }}" placeholder="Search title or slug" class="rounded border border-slate-300 px-3 py-2 text-sm">
+</form>
+<div class="mt-4 overflow-x-auto rounded-lg border border-slate-200 bg-white">
+  <table class="min-w-full text-sm">
+    <thead class="bg-slate-50 text-left text-slate-600">
+      <tr>
+        <th class="px-3 py-2">Title</th>
+        <th class="px-3 py-2">Slug</th>
+        <th class="px-3 py-2">Active</th>
+        <th class="px-3 py-2">Order</th>
+        <th class="px-3 py-2"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for page in pages %}
+      <tr class="border-t border-slate-100">
+        <td class="px-3 py-2">{{ page.title }}</td>
+        <td class="px-3 py-2 font-mono text-xs">{{ page.slug }}</td>
+        <td class="px-3 py-2">{% if page.is_active %}Yes{% else %}No{% endif %}</td>
+        <td class="px-3 py-2">{{ page.order }}</td>
+        <td class="px-3 py-2 whitespace-nowrap space-x-2">
+          <a href="{% url 'dashboard:page-detail' page.slug %}" class="text-blue-700 hover:underline">Sections</a>
+          <a href="{% url 'dashboard:page-edit' page.slug %}" class="text-blue-700 hover:underline">Edit</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5" class="px-3 py-6 text-slate-500">No pages yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

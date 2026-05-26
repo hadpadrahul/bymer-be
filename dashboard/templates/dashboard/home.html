@@ -1,19 +1,70 @@
 {% extends "dashboard/base_staff.html" %}
-
 {% block title %}Dashboard — Bymer{% endblock %}
-
 {% block content %}
-<div class="max-w-4xl">
-  <h1 class="text-2xl font-semibold mb-2">Dashboard</h1>
-  <p class="text-slate-600 mb-6">Foundation shell is ready. Content management screens ship in the next plans.</p>
-  <div class="grid gap-4 sm:grid-cols-2">
+<div class="space-y-8">
+  <div>
+    <h1 class="text-2xl font-semibold mb-2">Dashboard</h1>
+    <p class="text-slate-600">Manage website content, review submissions, and monitor content health.</p>
+  </div>
+
+  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
     <div class="rounded-lg border border-slate-200 bg-white p-4">
-      <p class="text-sm text-slate-500">Admin API</p>
-      <p class="font-mono text-sm mt-1">/api/admin/health/</p>
+      <p class="text-sm text-slate-500">New contact inquiries</p>
+      <p class="text-2xl font-semibold mt-1">{{ counts.contact_new }}</p>
+      <a href="{% url 'dashboard:inquiry-list' 'contact' %}" class="text-sm text-blue-700 hover:underline mt-2 inline-block">View inbox</a>
     </div>
     <div class="rounded-lg border border-slate-200 bg-white p-4">
-      <p class="text-sm text-slate-500">Public API docs</p>
-      <a href="/api/docs/" class="text-sm text-blue-700 hover:underline mt-1 inline-block">Open Swagger</a>
+      <p class="text-sm text-slate-500">New career applications</p>
+      <p class="text-2xl font-semibold mt-1">{{ counts.career_new }}</p>
+      <a href="{% url 'dashboard:inquiry-list' 'career' %}" class="text-sm text-blue-700 hover:underline mt-2 inline-block">View inbox</a>
+    </div>
+    <div class="rounded-lg border border-slate-200 bg-white p-4">
+      <p class="text-sm text-slate-500">Active products</p>
+      <p class="text-2xl font-semibold mt-1">{{ counts.products }}</p>
+    </div>
+    <div class="rounded-lg border border-slate-200 bg-white p-4">
+      <p class="text-sm text-slate-500">Active pages</p>
+      <p class="text-2xl font-semibold mt-1">{{ counts.pages }}</p>
+    </div>
+  </div>
+
+  {% if warnings %}
+  <div class="rounded-lg border border-amber-200 bg-amber-50 p-4">
+    <h2 class="font-medium text-amber-900 mb-2">Content warnings</h2>
+    <ul class="space-y-1 text-sm text-amber-800">
+      {% for w in warnings %}
+      <li>{{ w.message }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  <div class="grid gap-6 lg:grid-cols-2">
+    <div class="rounded-lg border border-slate-200 bg-white p-4">
+      <h2 class="font-medium mb-3">Recent contact inquiries</h2>
+      <ul class="text-sm space-y-2">
+        {% for row in recent_contacts %}
+        <li class="flex justify-between gap-2">
+          <span>{{ row.name }} — {{ row.subject|default:"(no subject)" }}</span>
+          <a href="{% url 'dashboard:inquiry-detail' 'contact' row.pk %}" class="text-blue-700 hover:underline shrink-0">Open</a>
+        </li>
+        {% empty %}
+        <li class="text-slate-500">None yet.</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="rounded-lg border border-slate-200 bg-white p-4">
+      <h2 class="font-medium mb-3">Recent career applications</h2>
+      <ul class="text-sm space-y-2">
+        {% for row in recent_careers %}
+        <li class="flex justify-between gap-2">
+          <span>{{ row.full_name }}</span>
+          <a href="{% url 'dashboard:inquiry-detail' 'career' row.pk %}" class="text-blue-700 hover:underline shrink-0">Open</a>
+        </li>
+        {% empty %}
+        <li class="text-slate-500">None yet.</li>
+        {% endfor %}
+      </ul>
     </div>
   </div>
 </div>

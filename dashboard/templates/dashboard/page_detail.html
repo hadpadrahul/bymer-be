@@ -1,0 +1,49 @@
+{% extends "dashboard/base_staff.html" %}
+{% load dashboard_extras %}
+{% block title %}{{ page.title }} — Dashboard{% endblock %}
+{% block content %}
+<div class="max-w-4xl space-y-6">
+  <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <h1 class="text-2xl font-semibold">{{ page.title }}</h1>
+      <p class="font-mono text-sm text-slate-600">{{ page.slug }}</p>
+    </div>
+    <div class="flex gap-2">
+      <a href="{% url 'dashboard:page-edit' page.slug %}" class="rounded border px-3 py-2 text-sm">Edit meta</a>
+      {% if preview_url %}
+      <a href="{{ preview_url }}" target="_blank" rel="noopener" class="rounded border px-3 py-2 text-sm">Preview site</a>
+      {% endif %}
+    </div>
+  </div>
+
+  {% copy_api_url public_api_path %}
+
+  <div class="rounded-lg border border-slate-200 bg-white overflow-hidden">
+    <div class="px-4 py-3 border-b bg-slate-50">
+      <h2 class="font-medium">Page sections (read-only map)</h2>
+      <p class="text-xs text-slate-500 mt-1">Section types are defined in code; manage content via linked collections.</p>
+    </div>
+    <table class="min-w-full text-sm">
+      <thead class="text-left text-slate-600">
+        <tr><th class="px-4 py-2">Section type</th><th class="px-4 py-2">Manage content</th></tr>
+      </thead>
+      <tbody>
+        {% for row in section_rows %}
+        <tr class="border-t border-slate-100">
+          <td class="px-4 py-2 font-mono">{{ row.type }}</td>
+          <td class="px-4 py-2">
+            {% if row.manage_url %}
+            <a href="{{ row.manage_url }}" class="text-blue-700 hover:underline">Open collection</a>
+            {% else %}
+            <span class="text-slate-400">—</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="2" class="px-4 py-6 text-slate-500">No sections mapped for this slug.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

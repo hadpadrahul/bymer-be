@@ -2,6 +2,7 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import generics, status
 from rest_framework.response import Response
 
+from dashboard.services.notifications import notify_contact_inquiry, notify_job_application
 from inquiries.models import ContactInquiry, JobApplication
 from inquiries.serializers import ContactInquiryCreateSerializer, JobApplicationCreateSerializer
 
@@ -14,7 +15,8 @@ class ContactInquiryCreateView(generics.CreateAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        inquiry = serializer.save()
+        notify_contact_inquiry(inquiry)
         return Response({"success": True}, status=status.HTTP_201_CREATED)
 
 
@@ -26,5 +28,6 @@ class JobApplicationCreateView(generics.CreateAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        application = serializer.save()
+        notify_job_application(application)
         return Response({"success": True}, status=status.HTTP_201_CREATED)
