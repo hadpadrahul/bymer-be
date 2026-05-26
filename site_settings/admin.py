@@ -36,7 +36,7 @@ class CompanyStatisticAdmin(admin.ModelAdmin):
 
 @admin.register(SiteMediaBanner)
 class SiteMediaBannerAdmin(admin.ModelAdmin):
-    list_display = ("title", "page", "order", "is_active", "image", "video_url")
+    list_display = ("title", "page", "order", "is_active", "image", "video_url", "cta_text")
     list_filter = ("is_active", "page")
     search_fields = ("title", "subtitle", "page__title", "page__slug")
     ordering = ("order", "title")

@@ -8,7 +8,7 @@
 
 This roadmap builds the backend in four vertical phases. Each phase should leave the project more runnable, more testable, and closer to the frontend contract.
 
-**Coverage:** 50 v1 requirements mapped, 0 unmapped.
+**Coverage:** 50 v1 requirements mapped + Phase 5 staff dashboard (extension).
 
 | Phase | Name | Goal | Requirements | Success Criteria |
 |-------|------|------|--------------|------------------|
@@ -16,6 +16,7 @@ This roadmap builds the backend in four vertical phases. Each phase should leave
 | 2 | Admin Content Model Layer | Implement the admin-managed data model for global, page, repeatable, catalog, and form content. | 23 | 5 |
 | 3 | Public API Contract | Expose stable frontend APIs, write-only form endpoints, filtering, ordering, pagination, and query-conscious serializers. | 17 | 5 |
 | 4 | Production Readiness | Package, document, test, and verify the backend for frontend handoff and VPS deployment. | 4 | 5 |
+| 5 | Staff Admin Dashboard | Custom `/dashboard/` UI (templates + HTMX) for staff content management; `/api/admin/` for AJAX. | — | 5 |
 
 ## Phases
 
@@ -107,6 +108,29 @@ This roadmap builds the backend in four vertical phases. Each phase should leave
 - Add final test coverage for key models, serializers, endpoints, and deployment assumptions.
 - Verify `.gitignore` and branch strategy keep `main` app-clean and `development` GSD-aware.
 
+### Phase 5: Staff Admin Dashboard
+
+**Goal:** Replace day-to-day Django Admin usage with a staff dashboard at `/dashboard/` (Django templates, Tailwind, HTMX) plus `/api/admin/` for AJAX.
+**Mode:** mvp
+**UI hint:** yes
+**Status:** Planned - 2026-05-25
+
+**Depends on:** Phases 2–3 (models + public API). May run in parallel with Phase 4 deploy.
+
+**Success Criteria**:
+1. Staff users (`is_staff`) can log in at `/dashboard/` and manage all content types without Django Admin.
+2. Globals, pages (known slugs + section map), catalog, content collections, banners, and media are fully CRUD-managed.
+3. Contact and career submissions are listable, filterable, exportable (CSV), status/notes editable, not deletable from UI.
+4. Dashboard home shows counts, recent submissions, and content health warnings.
+5. Edit screens expose copy-public-API-url helpers; API reference page links to `/api/docs/`.
+
+**Primary Work**:
+- Model additions (GSTIN, map URL, banner CTAs, inquiry notes, audit log).
+- `dashboard` app: views, forms, templates, registry.
+- `/api/admin/` endpoints for toggles, reorder, uploads.
+- Email on new submissions; lightweight audit log.
+- Tests and docs update.
+
 ## Requirement Coverage
 
 | Phase | Requirement IDs |
@@ -118,4 +142,6 @@ This roadmap builds the backend in four vertical phases. Each phase should leave
 
 ## Next Step
 
-Run `$gsd-plan-phase 4` to plan production readiness, or `$gsd-execute-phase 4` if plans already exist.
+Run `$gsd-execute-phase 5` to build the staff admin dashboard (plans 05-01–05-04).
+
+Phase 4 (deploy) can run in parallel: `$gsd-plan-phase 4` if not yet planned.

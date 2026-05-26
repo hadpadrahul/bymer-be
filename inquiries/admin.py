@@ -10,6 +10,17 @@ class ContactInquiryAdmin(admin.ModelAdmin):
     search_fields = ("name", "email", "phone", "subject", "message", "source_page")
     readonly_fields = ("created_at",)
     ordering = ("-created_at",)
+    fields = (
+        "name",
+        "email",
+        "phone",
+        "subject",
+        "message",
+        "source_page",
+        "status",
+        "internal_notes",
+        "created_at",
+    )
 
 
 @admin.register(JobApplication)
@@ -27,3 +38,19 @@ class JobApplicationAdmin(admin.ModelAdmin):
     )
     readonly_fields = ("created_at",)
     ordering = ("-created_at",)
+    fields = (
+        "full_name",
+        "date_of_birth",
+        "address",
+        "city",
+        "contact_number",
+        "email",
+        "qualifications",
+        "experience",
+        "area_of_interest",
+        "expected_ctc",
+        "preferred_contact_datetime",
+        "status",
+        "internal_notes",
+        "created_at",
+    )

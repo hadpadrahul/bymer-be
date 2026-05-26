@@ -9,6 +9,9 @@ env = environ.Env(
     DJANGO_DEBUG=(bool, True),
     DJANGO_ALLOWED_HOSTS=(list, ["localhost", "127.0.0.1"]),
     DJANGO_CORS_ALLOWED_ORIGINS=(list, ["http://localhost:3000", "http://127.0.0.1:3000"]),
+    PUBLIC_WEBSITE_BASE_URL=(str, ""),
+    ADMIN_NOTIFICATION_EMAILS=(list, []),
+    DASHBOARD_MAX_UPLOAD_MB=(int, 10),
 )
 environ.Env.read_env(BASE_DIR / ".env")
 
@@ -33,6 +36,8 @@ INSTALLED_APPS = [
     "content",
     "catalog",
     "inquiries",
+    "django_htmx",
+    "dashboard",
 ]
 
 MIDDLEWARE = [
@@ -45,6 +50,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django_htmx.middleware.HtmxMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -109,3 +115,17 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "Dynamic website backend API for admin-managed Bymer content.",
     "VERSION": "1.0.0",
 }
+
+PUBLIC_WEBSITE_BASE_URL = env("PUBLIC_WEBSITE_BASE_URL")
+ADMIN_NOTIFICATION_EMAILS = env("ADMIN_NOTIFICATION_EMAILS")
+DASHBOARD_MAX_UPLOAD_MB = env("DASHBOARD_MAX_UPLOAD_MB")
+
+LOGIN_URL = "/dashboard/login/"
+LOGIN_REDIRECT_URL = "/dashboard/"
+LOGOUT_REDIRECT_URL = "/dashboard/login/"
+
+if not DEBUG:
+    REST_FRAMEWORK = {
+        **REST_FRAMEWORK,
+        "DEFAULT_RENDERER_CLASSES": ["rest_framework.renderers.JSONRenderer"],
+    }
