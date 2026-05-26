@@ -1,0 +1,50 @@
+{% extends "dashboard/base_staff.html" %}
+{% block title %}{{ title }} — Dashboard{% endblock %}
+{% block content %}
+<div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+  <h1 class="text-2xl font-semibold">{{ title }}</h1>
+  <a href="{% url 'dashboard:inquiry-export' inquiry_type %}" class="inline-flex rounded border border-slate-300 px-4 py-2 text-sm hover:bg-slate-50">Export CSV</a>
+</div>
+<form method="get" class="mt-4 flex flex-wrap gap-2 items-end">
+  <div>
+    <label class="block text-xs text-slate-500 mb-1">Search</label>
+    <input type="search" name="q" value="{{ request.GET.q }}" class="rounded border border-slate-300 px-3 py-2 text-sm">
+  </div>
+  <div>
+    <label class="block text-xs text-slate-500 mb-1">Status</label>
+    <select name="status" class="rounded border border-slate-300 px-3 py-2 text-sm">
+      <option value="">All</option>
+      {% for value, label in status_choices %}
+      <option value="{{ value }}" {% if request.GET.status == value %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <button type="submit" class="rounded border px-3 py-2 text-sm">Filter</button>
+</form>
+<div class="mt-4 overflow-x-auto rounded-lg border border-slate-200 bg-white">
+  <table class="min-w-full text-sm">
+    <thead class="bg-slate-50 text-left text-slate-600">
+      <tr>
+        <th class="px-3 py-2">Name</th>
+        <th class="px-3 py-2">Email</th>
+        <th class="px-3 py-2">Status</th>
+        <th class="px-3 py-2">Received</th>
+        <th class="px-3 py-2"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in items %}
+      <tr class="border-t border-slate-100">
+        <td class="px-3 py-2">{% if inquiry_type == 'contact' %}{{ item.name }}{% else %}{{ item.full_name }}{% endif %}</td>
+        <td class="px-3 py-2">{{ item.email }}</td>
+        <td class="px-3 py-2">{{ item.get_status_display }}</td>
+        <td class="px-3 py-2">{{ item.created_at }}</td>
+        <td class="px-3 py-2"><a href="{% url 'dashboard:inquiry-detail' inquiry_type item.pk %}" class="text-blue-700 hover:underline">View</a></td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5" class="px-3 py-6 text-slate-500">No submissions yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

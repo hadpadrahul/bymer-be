@@ -64,6 +64,24 @@ Prints per-endpoint status, latency, response size, item counts, and fetches eve
 | `--skip-write` | Skip contact/career POST tests |
 | `--base-url` | Default `http://127.0.0.1:8000` |
 
+## Staff dashboard
+
+Editors use **`/dashboard/`** (not Django Admin for day-to-day content). Requires a user with `is_staff=True`.
+
+```powershell
+python manage.py createsuperuser
+python manage.py runserver
+```
+
+Open http://127.0.0.1:8000/dashboard/login/
+
+Optional in `.env`:
+
+- `ADMIN_NOTIFICATION_EMAILS=you@company.com` — email on new form submissions
+- `PUBLIC_WEBSITE_BASE_URL=https://www.example.com` — preview links on page detail
+
+Full behavior: [ADMIN_DASHBOARD.md](./ADMIN_DASHBOARD.md).
+
 ## Tests
 
 ```powershell
@@ -74,7 +92,7 @@ pytest
 
 1. `pytest` passes.
 2. `python manage.py spectacular --file schema.yml --validate` passes.
-3. Review [DEPLOYMENT.md](./DEPLOYMENT.md) pre-deploy checklist.
+3. Review [DEPLOYMENT.md](./DEPLOYMENT.md) (PythonAnywhere or VPS/Docker) pre-deploy checklist.
 4. Ensure [API.md](./API.md) still matches any endpoint changes.
 
 ## API details

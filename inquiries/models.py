@@ -19,6 +19,7 @@ class ContactInquiry(models.Model):
         default=Status.NEW,
         db_index=True,
     )
+    internal_notes = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
 
     class Meta:
@@ -53,6 +54,7 @@ class JobApplication(models.Model):
         default=Status.NEW,
         db_index=True,
     )
+    internal_notes = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
 
     class Meta:

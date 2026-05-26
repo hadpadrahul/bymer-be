@@ -10,6 +10,8 @@ class CompanyProfile(models.Model):
     phone = models.CharField(max_length=50)
     alternate_phone = models.CharField(max_length=50, blank=True)
     address = models.TextField()
+    map_url = models.URLField(blank=True)
+    gstin = models.CharField(max_length=15, blank=True)
     website = models.URLField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -68,6 +70,8 @@ class SiteMediaBanner(models.Model):
     subtitle = models.CharField(max_length=255, blank=True)
     image = models.ImageField(upload_to="banners/", blank=True)
     video_url = models.URLField(blank=True)
+    cta_text = models.CharField(max_length=255, blank=True)
+    cta_button_url = models.URLField(blank=True)
     order = models.PositiveIntegerField(default=0, db_index=True)
     is_active = models.BooleanField(default=True, db_index=True)
 

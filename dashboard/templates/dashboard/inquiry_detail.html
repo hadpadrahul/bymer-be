@@ -1,0 +1,39 @@
+{% extends "dashboard/base_staff.html" %}
+{% block title %}Submission — Dashboard{% endblock %}
+{% block content %}
+<div class="max-w-3xl space-y-6">
+  <div>
+    <a href="{% url 'dashboard:inquiry-list' inquiry_type %}" class="text-sm text-blue-700 hover:underline">← Back to list</a>
+    <h1 class="text-2xl font-semibold mt-2">Submission detail</h1>
+  </div>
+
+  <div class="rounded-lg border border-slate-200 bg-white p-6 space-y-3 text-sm">
+    {% if inquiry_type == 'contact' %}
+    <p><span class="font-medium">Name:</span> {{ readonly_fields.name }}</p>
+    <p><span class="font-medium">Email:</span> {{ readonly_fields.email }}</p>
+    <p><span class="font-medium">Phone:</span> {{ readonly_fields.phone }}</p>
+    <p><span class="font-medium">Subject:</span> {{ readonly_fields.subject }}</p>
+    <p><span class="font-medium">Message:</span></p>
+    <p class="whitespace-pre-wrap text-slate-700">{{ readonly_fields.message }}</p>
+    {% else %}
+    <p><span class="font-medium">Name:</span> {{ readonly_fields.full_name }}</p>
+    <p><span class="font-medium">Email:</span> {{ readonly_fields.email }}</p>
+    <p><span class="font-medium">Phone:</span> {{ readonly_fields.contact_number }}</p>
+    <p><span class="font-medium">City:</span> {{ readonly_fields.city }}</p>
+    {% endif %}
+    <p><span class="font-medium">Received:</span> {{ readonly_fields.created_at }}</p>
+  </div>
+
+  <form method="post" class="space-y-4 rounded-lg border border-slate-200 bg-white p-6">
+    {% csrf_token %}
+    {% for field in form %}
+    <div>
+      <label class="block text-sm font-medium text-slate-700 mb-1" for="{{ field.id_for_label }}">{{ field.label }}</label>
+      {{ field }}
+      {% if field.errors %}<p class="text-xs text-red-600 mt-1">{{ field.errors }}</p>{% endif %}
+    </div>
+    {% endfor %}
+    <button type="submit" class="rounded bg-slate-900 text-white px-4 py-2 text-sm">Save status & notes</button>
+  </form>
+</div>
+{% endblock %}
