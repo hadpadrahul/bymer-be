@@ -1,4 +1,4 @@
-# Shared (both branches)
+# Shared ignores
 .venv/
 .env
 .env.*
@@ -21,7 +21,12 @@ schema.yml
 .DS_Store
 Thumbs.db
 
-# development: agent tooling stays on your machine only (never commit)
+# Development-only (not on main — see docs/BRANCHES.md)
+.planning/
+AGENTS.md
+bymer_project_info.md
+bymer_be_base_prompt.md
+
 .codex/
 .cursor/
 .agent/
