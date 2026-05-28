@@ -7,6 +7,7 @@ from rest_framework.test import APIClient
 from catalog.models import Product, ProductCategory
 from content.models import TeamMember
 from dashboard.models import AdminAuditEntry
+from inquiries.models import ContactInquiry
 
 
 @pytest.fixture
@@ -69,6 +70,40 @@ def test_inquiry_csv_export(staff_client):
 
 
 @pytest.mark.django_db
+def test_inquiry_csv_export_respects_filters_and_selection(staff_client):
+    first = ContactInquiry.objects.create(
+        name="A",
+        email="a@example.com",
+        phone="123",
+        subject="s1",
+        message="m1",
+        status=ContactInquiry.Status.NEW,
+    )
+    ContactInquiry.objects.create(
+        name="B",
+        email="b@example.com",
+        phone="456",
+        subject="s2",
+        message="m2",
+        status=ContactInquiry.Status.CLOSED,
+    )
+    filtered = staff_client.get(
+        reverse("dashboard:inquiry-export", kwargs={"inquiry_type": "contact"}),
+        {"status": ContactInquiry.Status.NEW},
+    )
+    assert filtered.status_code == 200
+    assert "a@example.com" in filtered.content.decode("utf-8")
+    assert "b@example.com" not in filtered.content.decode("utf-8")
+
+    selected = staff_client.get(
+        reverse("dashboard:inquiry-export", kwargs={"inquiry_type": "contact"}),
+        {"selected_ids": [first.pk]},
+    )
+    assert selected.status_code == 200
+    assert "a@example.com" in selected.content.decode("utf-8")
+
+
+@pytest.mark.django_db
 def test_contact_form_sends_email(settings):
     settings.ADMIN_NOTIFICATION_EMAILS = ["admin@example.com"]
     User = get_user_model()
@@ -103,3 +138,18 @@ def test_audit_logged_on_registry_create(staff_client):
     )
     assert response.status_code in (302, 200)
     assert AdminAuditEntry.objects.count() > before
+
+
+@pytest.mark.django_db
+def test_bulk_deactivate_registry_items(staff_client):
+    first = TeamMember.objects.create(full_name="One", designation="Role", order=1, is_active=True)
+    second = TeamMember.objects.create(full_name="Two", designation="Role", order=2, is_active=True)
+    response = staff_client.post(
+        reverse("dashboard:bulk-deactivate", kwargs={"registry_key": "team"}),
+        {"selected_ids": [first.pk, second.pk]},
+    )
+    assert response.status_code == 302
+    first.refresh_from_db()
+    second.refresh_from_db()
+    assert first.is_active is False
+    assert second.is_active is False

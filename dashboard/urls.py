@@ -2,6 +2,8 @@ from django.urls import path
 
 from dashboard.views import DashboardLoginView, DashboardLogoutView
 from dashboard.views.crud import (
+    bulk_activate_registry_items,
+    bulk_deactivate_registry_items,
     RegistryCreateView,
     RegistryListView,
     RegistryUpdateView,
@@ -42,6 +44,16 @@ urlpatterns = [
     path("manage/<str:registry_key>/", RegistryListView.as_view(), name="list"),
     path("manage/<str:registry_key>/add/", RegistryCreateView.as_view(), name="add"),
     path("manage/<str:registry_key>/<int:pk>/", RegistryUpdateView.as_view(), name="edit"),
+    path(
+        "manage/<str:registry_key>/bulk-deactivate/",
+        bulk_deactivate_registry_items,
+        name="bulk-deactivate",
+    ),
+    path(
+        "manage/<str:registry_key>/bulk-activate/",
+        bulk_activate_registry_items,
+        name="bulk-activate",
+    ),
     path(
         "manage/<str:registry_key>/<int:pk>/deactivate/",
         deactivate_registry_item,
