@@ -57,6 +57,9 @@ class RegistryListView(StaffRequiredMixin, ListView):
         context["entry"] = self.entry
         context["search_query"] = self.request.GET.get("q", "")
         context["active_filter"] = self.request.GET.get("active", "")
+        query = self.request.GET.copy()
+        query.pop("page", None)
+        context["query_without_page"] = query.urlencode()
         filters = []
         for field_name in self.entry.list_filter:
             if field_name == "is_active":
@@ -166,3 +169,47 @@ def deactivate_registry_item(request, registry_key, pk):
         log_audit(request, action="delete", model_name=entry.model.__name__, object_id=pk)
         messages.success(request, f"{entry.label} removed.")
     return redirect("dashboard:list", registry_key=registry_key)
+
+
+@staff_member_required(login_url="/dashboard/login/")
+def bulk_deactivate_registry_items(request, registry_key):
+    entry = get_entry(registry_key)
+    ids = request.POST.getlist("selected_ids")
+    if not ids:
+        messages.warning(request, "No rows selected.")
+        return redirect("dashboard:list", registry_key=registry_key)
+    if not entry.supports_active:
+        messages.error(request, "Bulk deactivate is not supported for this collection.")
+        return redirect("dashboard:list", registry_key=registry_key)
+    updated = entry.model.objects.filter(pk__in=ids).update(is_active=False)
+    log_audit(
+        request,
+        action="bulk_deactivate",
+        model_name=entry.model.__name__,
+        object_id=f"{updated} rows",
+    )
+    messages.success(request, f"{updated} {entry.label.lower()} row(s) deactivated.")
+    return redirect("dashboard:list", registry_key=registry_key)
+
+
+@staff_member_required(login_url="/dashboard/login/")
+def bulk_activate_registry_items(request, registry_key):
+    entry = get_entry(registry_key)
+    ids = request.POST.getlist("selected_ids")
+    if not ids:
+        messages.warning(request, "No rows selected.")
+        return redirect("dashboard:list", registry_key=registry_key)
+    if not entry.supports_active:
+        messages.error(request, "Bulk activate is not supported for this collection.")
+        return redirect("dashboard:list", registry_key=registry_key)
+    updated = entry.model.objects.filter(pk__in=ids).update(is_active=True)
+    log_audit(
+        request,
+        action="bulk_activate",
+        model_name=entry.model.__name__,
+        object_id=f"{updated} rows",
+    )
+    messages.success(request, f"{updated} {entry.label.lower()} row(s) activated.")
+    return redirect("dashboard:list", registry_key=registry_key)
+
+

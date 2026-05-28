@@ -3,7 +3,7 @@
 {% block content %}
 <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
   <h1 class="text-2xl font-semibold">{{ title }}</h1>
-  <a href="{% url 'dashboard:inquiry-export' inquiry_type %}" class="inline-flex rounded border border-slate-300 px-4 py-2 text-sm hover:bg-slate-50">Export CSV</a>
+  <a href="{% url 'dashboard:inquiry-export' inquiry_type %}{% if query_without_page %}?{{ query_without_page }}{% endif %}" class="inline-flex rounded border border-slate-300 px-4 py-2 text-sm hover:bg-slate-50">Export filtered CSV</a>
 </div>
 <form method="get" class="mt-4 flex flex-wrap gap-2 items-end">
   <div>
@@ -22,9 +22,13 @@
   <button type="submit" class="rounded border px-3 py-2 text-sm">Filter</button>
 </form>
 <div class="mt-4 overflow-x-auto rounded-lg border border-slate-200 bg-white">
+  <form method="get" action="{% url 'dashboard:inquiry-export' inquiry_type %}">
+    <input type="hidden" name="q" value="{{ request.GET.q }}">
+    <input type="hidden" name="status" value="{{ request.GET.status }}">
   <table class="min-w-full text-sm">
     <thead class="bg-slate-50 text-left text-slate-600">
       <tr>
+        <th class="px-3 py-2 w-8"></th>
         <th class="px-3 py-2">Name</th>
         <th class="px-3 py-2">Email</th>
         <th class="px-3 py-2">Status</th>
@@ -35,6 +39,7 @@
     <tbody>
       {% for item in items %}
       <tr class="border-t border-slate-100">
+        <td class="px-3 py-2"><input type="checkbox" name="selected_ids" value="{{ item.pk }}" class="rounded border-slate-300"></td>
         <td class="px-3 py-2">{% if inquiry_type == 'contact' %}{{ item.name }}{% else %}{{ item.full_name }}{% endif %}</td>
         <td class="px-3 py-2">{{ item.email }}</td>
         <td class="px-3 py-2">{{ item.get_status_display }}</td>
@@ -42,9 +47,22 @@
         <td class="px-3 py-2"><a href="{% url 'dashboard:inquiry-detail' inquiry_type item.pk %}" class="text-blue-700 hover:underline">View</a></td>
       </tr>
       {% empty %}
-      <tr><td colspan="5" class="px-3 py-6 text-slate-500">No submissions yet.</td></tr>
+      <tr><td colspan="6" class="px-3 py-6 text-slate-500">No submissions yet.</td></tr>
       {% endfor %}
     </tbody>
   </table>
+  <div class="p-3 border-t border-slate-200 bg-slate-50">
+    <button type="submit" class="rounded border border-slate-300 px-3 py-1.5 text-xs hover:bg-white">
+      Export selected (or filtered if none selected)
+    </button>
+  </div>
+  </form>
 </div>
+{% if page_obj.has_other_pages %}
+<div class="mt-4 flex gap-2 text-sm">
+  {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}{% if query_without_page %}&{{ query_without_page }}{% endif %}">Previous</a>{% endif %}
+  <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+  {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}{% if query_without_page %}&{{ query_without_page }}{% endif %}">Next</a>{% endif %}
+</div>
+{% endif %}
 {% endblock %}

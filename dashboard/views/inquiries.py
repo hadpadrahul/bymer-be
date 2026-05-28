@@ -50,6 +50,9 @@ class InquiryListView(StaffRequiredMixin, ListView):
         context["inquiry_type"] = self.inquiry_type
         context["title"] = "Contact inquiries" if self.inquiry_type == "contact" else "Career applications"
         context["status_choices"] = self.model.Status.choices
+        query = self.request.GET.copy()
+        query.pop("page", None)
+        context["query_without_page"] = query.urlencode()
         return context
 
 
@@ -95,18 +98,40 @@ class InquiryDetailView(StaffRequiredMixin, UpdateView):
 @staff_member_required(login_url="/dashboard/login/")
 def export_inquiries_csv(request, inquiry_type):
     model = ContactInquiry if inquiry_type == "contact" else JobApplication
+    queryset = model.objects.all()
+    selected_ids = request.GET.getlist("selected_ids")
+    if selected_ids:
+        queryset = queryset.filter(pk__in=selected_ids)
+    else:
+        search = request.GET.get("q", "").strip()
+        status = request.GET.get("status")
+        if search:
+            if inquiry_type == "contact":
+                queryset = queryset.filter(
+                    Q(name__icontains=search)
+                    | Q(email__icontains=search)
+                    | Q(phone__icontains=search)
+                )
+            else:
+                queryset = queryset.filter(
+                    Q(full_name__icontains=search)
+                    | Q(email__icontains=search)
+                    | Q(contact_number__icontains=search)
+                )
+        if status:
+            queryset = queryset.filter(status=status)
     response = HttpResponse(content_type="text/csv")
     response["Content-Disposition"] = f'attachment; filename="{inquiry_type}-submissions.csv"'
     writer = csv.writer(response)
     if inquiry_type == "contact":
         writer.writerow(["name", "email", "phone", "subject", "status", "created_at", "message"])
-        for row in model.objects.all():
+        for row in queryset:
             writer.writerow(
                 [row.name, row.email, row.phone, row.subject, row.status, row.created_at, row.message]
             )
     else:
         writer.writerow(["full_name", "email", "contact_number", "city", "status", "created_at"])
-        for row in model.objects.all():
+        for row in queryset:
             writer.writerow(
                 [row.full_name, row.email, row.contact_number, row.city, row.status, row.created_at]
             )

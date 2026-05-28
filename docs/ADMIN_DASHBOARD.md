@@ -43,7 +43,11 @@ Public **`/api/`** is unchanged for the marketing frontend.
 
 - Registry-driven navigation automatically renders Globals/Content/Catalog sections from `dashboard/registry.py` entries.
 - Collection lists support search, active status filter, pagination, and model-specific relation filters where configured.
+- Filter state persists while paginating list pages.
 - Active/inactive states are shown as badges; quick toggle is available from list rows.
+- Order can be updated inline on list rows for order-enabled collections.
+- Bulk activate/deactivate is available for active-enabled collections.
+- Inquiry CSV export supports both filter-based export and selected-row export.
 - Edit forms show current file links and image previews for common image fields.
 - Media library supports open + copy (full URL and path) actions for frontend handoff.
 
