@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Q
+from django.db.models.fields.related import ForeignKey
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic import CreateView, ListView, UpdateView
@@ -24,6 +25,16 @@ class RegistryListView(StaffRequiredMixin, ListView):
 
     def get_queryset(self):
         qs = self.entry.model.objects.all()
+        relation_fields = []
+        for column in self.entry.list_display:
+            try:
+                field = self.entry.model._meta.get_field(column)
+            except Exception:
+                continue
+            if isinstance(field, ForeignKey):
+                relation_fields.append(column)
+        if relation_fields:
+            qs = qs.select_related(*relation_fields)
         search = self.request.GET.get("q", "").strip()
         if search and self.entry.search_fields:
             query = Q()
@@ -46,6 +57,28 @@ class RegistryListView(StaffRequiredMixin, ListView):
         context["entry"] = self.entry
         context["search_query"] = self.request.GET.get("q", "")
         context["active_filter"] = self.request.GET.get("active", "")
+        filters = []
+        for field_name in self.entry.list_filter:
+            if field_name == "is_active":
+                continue
+            try:
+                field = self.entry.model._meta.get_field(field_name)
+            except Exception:
+                continue
+            if hasattr(field, "related_model") and field.related_model:
+                choices = [
+                    (str(obj.pk), str(obj))
+                    for obj in field.related_model.objects.all()[:200]
+                ]
+                filters.append(
+                    {
+                        "name": field_name,
+                        "label": field.verbose_name.title(),
+                        "choices": choices,
+                        "selected": self.request.GET.get(field_name, ""),
+                    }
+                )
+        context["extra_filters"] = filters
         return context
 
 

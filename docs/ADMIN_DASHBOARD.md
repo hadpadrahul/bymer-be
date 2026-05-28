@@ -39,6 +39,14 @@ Registry keys match list URLs (e.g. `team`, `products`, `banners`).
 
 Public **`/api/`** is unchanged for the marketing frontend.
 
+## Current UX highlights
+
+- Registry-driven navigation automatically renders Globals/Content/Catalog sections from `dashboard/registry.py` entries.
+- Collection lists support search, active status filter, pagination, and model-specific relation filters where configured.
+- Active/inactive states are shown as badges; quick toggle is available from list rows.
+- Edit forms show current file links and image previews for common image fields.
+- Media library supports open + copy (full URL and path) actions for frontend handoff.
+
 ## Environment variables
 
 | Variable | Purpose |
