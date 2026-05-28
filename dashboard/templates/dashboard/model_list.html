@@ -25,6 +25,17 @@
     </select>
   </div>
   {% endif %}
+  {% for filt in extra_filters %}
+  <div>
+    <label class="block text-xs text-slate-500 mb-1">{{ filt.label }}</label>
+    <select name="{{ filt.name }}" class="rounded border border-slate-300 px-3 py-2 text-sm">
+      <option value="">All</option>
+      {% for value, label in filt.choices %}
+      <option value="{{ value }}" {% if filt.selected == value %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  {% endfor %}
   <button type="submit" class="rounded border px-3 py-2 text-sm">Filter</button>
 </form>
 
@@ -40,13 +51,24 @@
       {% for item in items %}
       <tr class="border-t border-slate-100">
         {% for col in entry.list_display %}
-        <td class="px-3 py-2">{{ item|get_attr:col }}</td>
+        <td class="px-3 py-2">
+          {% if col == "is_active" %}
+            {% if item.is_active %}
+            <span class="inline-flex rounded-full bg-emerald-100 text-emerald-700 px-2 py-0.5 text-xs">Active</span>
+            {% else %}
+            <span class="inline-flex rounded-full bg-slate-200 text-slate-700 px-2 py-0.5 text-xs">Inactive</span>
+            {% endif %}
+          {% else %}
+            {{ item|get_attr:col }}
+          {% endif %}
+        </td>
         {% endfor %}
         <td class="px-3 py-2 whitespace-nowrap space-x-2">
           <a href="{% url 'dashboard:edit' entry.key item.pk %}" class="text-blue-700 hover:underline">Edit</a>
           {% if entry.supports_active %}
           <button hx-patch="/api/admin/{{ entry.key }}/{{ item.pk }}/toggle-active/"
                   hx-swap="none"
+                  hx-on::after-request="window.location.reload()"
                   class="text-slate-600 hover:underline text-xs">Toggle active</button>
           {% endif %}
         </td>

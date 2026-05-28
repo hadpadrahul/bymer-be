@@ -1,4 +1,5 @@
 {% extends "dashboard/base.html" %}
+{% load dashboard_extras %}
 
 {% block body_attrs %}x-data="{ sidebarOpen: false }"{% endblock %}
 
@@ -15,22 +16,13 @@
       <a href="{% url 'dashboard:home' %}" class="block rounded px-3 py-2 hover:bg-slate-800">Home</a>
       <a href="{% url 'dashboard:company-profile' %}" class="block rounded px-3 py-2 hover:bg-slate-800">Company profile</a>
       <a href="{% url 'dashboard:page-list' %}" class="block rounded px-3 py-2 hover:bg-slate-800">Pages</a>
-      <p class="px-3 pt-3 text-xs uppercase tracking-wide text-slate-500">Globals</p>
-      <a href="{% url 'dashboard:list' 'social-links' %}" class="block rounded px-3 py-2 hover:bg-slate-800">Social links</a>
-      <a href="{% url 'dashboard:list' 'statistics' %}" class="block rounded px-3 py-2 hover:bg-slate-800">Statistics</a>
-      <a href="{% url 'dashboard:list' 'banners' %}" class="block rounded px-3 py-2 hover:bg-slate-800">Banners</a>
-      <p class="px-3 pt-3 text-xs uppercase tracking-wide text-slate-500">Content</p>
-      <a href="{% url 'dashboard:list' 'team' %}" class="block rounded px-3 py-2 hover:bg-slate-800">Team</a>
-      <a href="{% url 'dashboard:list' 'timelines' %}" class="block rounded px-3 py-2 hover:bg-slate-800">Timeline</a>
-      <a href="{% url 'dashboard:list' 'clients' %}" class="block rounded px-3 py-2 hover:bg-slate-800">Clients</a>
-      <a href="{% url 'dashboard:list' 'testimonials' %}" class="block rounded px-3 py-2 hover:bg-slate-800">Testimonials</a>
-      <a href="{% url 'dashboard:list' 'certifications' %}" class="block rounded px-3 py-2 hover:bg-slate-800">Certifications</a>
-      <a href="{% url 'dashboard:list' 'awards' %}" class="block rounded px-3 py-2 hover:bg-slate-800">Awards</a>
-      <a href="{% url 'dashboard:list' 'faqs' %}" class="block rounded px-3 py-2 hover:bg-slate-800">FAQs</a>
-      <p class="px-3 pt-3 text-xs uppercase tracking-wide text-slate-500">Catalog</p>
-      <a href="{% url 'dashboard:list' 'categories' %}" class="block rounded px-3 py-2 hover:bg-slate-800">Categories</a>
-      <a href="{% url 'dashboard:list' 'products' %}" class="block rounded px-3 py-2 hover:bg-slate-800">Products</a>
-      <a href="{% url 'dashboard:list' 'machinery' %}" class="block rounded px-3 py-2 hover:bg-slate-800">Machinery</a>
+      {% dashboard_nav_groups as grouped_nav %}
+      {% for group_name, entries in grouped_nav %}
+      <p class="px-3 pt-3 text-xs uppercase tracking-wide text-slate-500">{{ group_name }}</p>
+      {% for entry in entries %}
+      <a href="{% url 'dashboard:list' entry.key %}" class="block rounded px-3 py-2 hover:bg-slate-800">{{ entry.label }}</a>
+      {% endfor %}
+      {% endfor %}
       <p class="px-3 pt-3 text-xs uppercase tracking-wide text-slate-500">Inbox</p>
       <a href="{% url 'dashboard:inquiry-list' 'contact' %}" class="block rounded px-3 py-2 hover:bg-slate-800">Contact inquiries</a>
       <a href="{% url 'dashboard:inquiry-list' 'career' %}" class="block rounded px-3 py-2 hover:bg-slate-800">Career applications</a>
